@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Prediction</title>
+</head>
+
+<body>
+
+    <div style="color:rgb(253, 251, 251); font-family:Verdana, Geneva, Tahoma, sans-serif;">
+        <form action="{{ url_for('predict')}}" method="post">
+            <h1 id="h1">Car Price Prediction System</h1>
+            <br><br>
+            <table cellspacing="25px" cellpadding="2.5%" align="center">
+                <tr>
+                    <td><h3>Year</h3><input id="first" name="Year" type="number "></td>
+                    <td colspan="3"><h3>What is the Showroom Price ?</h3><input id="second" name="Present_Price" required="required" placeholder="Lakhs"></td>
+                </tr>
+                <tr>
+                    <td><h3>Kilometers Driven</h3><input id="third" name="Kms_Driven" required="required"></td>
+                    <td colspan="3"><h3>Owners previously had the car</h3><input id="fourth" name="Owner" required="required" placeholder="0 or 1 or 3"></td>
+                </tr>
+                <tr>
+                    <td><h3>Are you A Dealer or Individual</h3><select name="Seller_Type_Individual" id="resea" required="required">
+                        <option value="Dealer">Dealer</option>
+                        <option value="Individual">Individual</option>
+                    </select></td>
+                    <td><h3>Fuel type</h3><select name="Fuel_Type_Petrol" id="fuel" required="required">
+                        <option value="Petrol">Petrol</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="Diesel">CNG</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td><h3>Transmission type</h3><select name="Transmission_Mannual" id="research" required="required">
+                        <option value="Mannual">Manual</option>
+                        <option value="Automatic">Automatic</option>
+                    </select></td>
+                    <td><h3>Model</h3><select name="Model" id="model" required="required">
+                        <option value="SUV">SUV</option>
+                        <option value="MUV">MUV</option>
+                        <option value="Hatchback">Hatchback</option>
+                        <option value="Sedan">Sedan</option>
+                        <option value="Bike">Bike</option>
+                    </select></td>
+                </tr>
+            </table>
+            
+            <br><br><button id="sub" type="submit ">CALCULATE</button>
+            <a href="http://127.0.0.1:5500/templates/graph_&_stats.html"><input type="button" id="sub" value="Go to demo" /></a>
+            <br>
+            <a href="http://127.0.0.1:5500/templates/top10.html"><input type="button" id="sub" value="Go to top10" /></a>
+            <br>
+
+        </form>
+
+
+
+        <br><h2 id="h2">{{ prediction_text }}</h2>
+    </div>
+
+
+
+
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1543520669-5e90606d2213?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
+            text-align: center;
+            padding: 0px;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+            text-transform: uppercase;
+            text-shadow: 0 3px rgb(247, 12, 12);
+            font-size: 20px;
+        }
+
+        #research {
+            font-size: 18px;
+            width: 100px;
+            height: 23px;
+            top: 23px;
+        }
+        
+        #fuel {
+            width: 85px;
+            height: 43px;
+            text-align: center;
+            border-radius: 14px;
+            font-size: 20px;
+        }
+        
+        #fuel:hover {
+            background-color: rgb(70, 137, 238);
+        }
+        
+        #research {
+            width: 130px;
+            height: 43px;
+            text-align: center;
+            border-radius: 14px;
+            font-size: 18px;
+        }
+        
+        #research:hover {
+            background-color: rgb(70, 137, 238);
+        }
+        
+        #model {
+            width: 130px;
+            height: 43px;
+            text-align: center;
+            border-radius: 14px;
+            font-size: 18px;
+        }
+        
+        #model:hover {
+            background-color: rgb(70, 137, 238);
+        }
+
+        #resea {
+            width: 99px;
+            height: 43px;
+            text-align: center;
+            border-radius: 14px;
+            font-size: 18px;
+        }
+        
+        #resea:hover {
+            background-color: rgb(70, 137, 238);
+        }
+        
+        #sub {
+            width: 200px;
+            height: 43px;
+            text-align: center;
+            border-radius: 14px;
+            font-size: 18px;
+        }
+        
+        #sub:hover {
+            background-color: rgb(70, 137, 238);
+        }
+        
+        #first {
+            border-radius: 14px;
+            height: 25px;
+            font-size: 20px;
+            text-align: center;
+        }
+        
+        #second {
+            border-radius: 14px;
+            height: 25px;
+            font-size: 20px;
+            text-align: center;
+        }
+        
+        #third {
+            border-radius: 14px;
+            height: 25px;
+            font-size: 20px;
+            text-align: center;
+        }
+        
+        #fourth {
+            border-radius: 14px;
+            height: 25px;
+            font-size: 20px;
+            text-align: center;
+        }
+        #h1{
+            margin: 1em 0 0.5em 0;
+            color: #ffffff;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;   
+            font-size: 55px;
+            line-height: 42px;
+            text-transform: uppercase;
+            text-shadow: 0 4px rgb(255, 0, 0);
+        }
+
+        #h2{
+            color: #ffffff;
+            font-family:monospace;   
+            font-size: 30px;
+            line-height: 42px;
+        }
+    </style>
+</body>
+
+</html>
